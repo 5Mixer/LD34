@@ -2,7 +2,7 @@ package ;
 import flixel.FlxSprite;
 import flixel.group.FlxTypedGroup;
 
-class Fungi extends FlxSprite {
+class Thorn extends FlxSprite {
 	var ground:FlxSprite;
 	public var size = 1;
 
@@ -17,7 +17,7 @@ class Fungi extends FlxSprite {
 
 	public function new (X,Y,_ground,soldierGroup:FlxTypedGroup<Soldier>){
 		super(X,Y);
-		loadGraphic("assets/images/PlantA.png",20,20,true);
+		loadGraphic("assets/images/Thorns.png",40,40,true);
 
 		immovable = true;
 		ground = _ground;
@@ -39,7 +39,9 @@ class Fungi extends FlxSprite {
 			if (collisionExceptions.members.indexOf(soldier) == -1){
 				var s = cast(soldier,Soldier);
 
-				if (s.speed > 20){
+				if (flixel.util.FlxRandom.chanceRoll(75)){
+					s.kill();
+				}else{
 					s.speed = Std.int(s.speed*slowdown);
 				}
 

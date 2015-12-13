@@ -7,6 +7,7 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 import flixel.group.FlxTypedGroup;
+import flixel.group.FlxGroup;
 
 /**
  * A FlxState which can be used for the actual gameplay.
@@ -20,8 +21,12 @@ class PlayState extends FlxState
 	var soldiers:FlxTypedGroup<Soldier>;
 	var farmers:FlxTypedGroup<Farmer>;
 	var fungi:FlxTypedGroup<Fungi>;
+	var thorns:FlxTypedGroup<Thorn>;
+	var projectiles:FlxGroup;
 
 	var player:Farmer;
+
+	var money = 0;
 	/**
 	 * Function that is called up when to state is created to set it up.
 	 */
@@ -30,6 +35,7 @@ class PlayState extends FlxState
 		super.create();
 
 		flixel.FlxG.scaleMode = new ScaleMode();
+		FlxG.camera.bgColor = flixel.util.FlxColor.WHITE;
 
 		ground = new FlxSprite(0,FlxG.height-30);
 		ground.immovable = true;
@@ -39,8 +45,10 @@ class PlayState extends FlxState
 		soldiers = new FlxTypedGroup<Soldier>();
 		farmers = new FlxTypedGroup<Farmer>();
 		fungi = new FlxTypedGroup<Fungi>();
+		thorns = new FlxTypedGroup<Thorn>();
+		projectiles = new FlxGroup();
 
-		castle = new Castle(1100,FlxG.height-30-160,soldiers,ground);
+		castle = new Castle(1100,FlxG.height-30-160,soldiers,ground,projectiles);
 		add(castle);
 
 		farm = new Farm(30,FlxG.height-30-160,farmers);
@@ -49,12 +57,16 @@ class PlayState extends FlxState
 		add(farmers);
 		add(soldiers);
 		add(fungi);
+		add(thorns);
+		add(projectiles);
 
 		player = new Farmer(farm.x,farm.y);
 		farmers.add(player);
+		FlxG.camera.follow(player);
 
 
 		FlxG.worldBounds.set(1300,FlxG.height*2);
+		FlxG.camera.bounds = new flixel.util.FlxRect(0,0,1300,FlxG.height);
 
 		loaded=true;
 
@@ -87,6 +99,9 @@ class PlayState extends FlxState
 		if (FlxG.keys.justPressed.SHIFT){
 			fungi.add(new Fungi(player.x+ 16-(20/2), player.y+20,ground,soldiers));
 		}
+		if (FlxG.keys.justPressed.Q){
+			thorns.add(new Thorn(player.x+ 16-(20/2), player.y,ground,soldiers));
+		}
 
 
 		/*
@@ -104,6 +119,9 @@ class PlayState extends FlxState
 
 	override public function onResize (width,height){
 		super.onResize(width,height);
+
+		FlxG.camera.scroll.y = (-height/FlxG.camera.zoom)+height;
+		FlxG.camera.bounds = new flixel.util.FlxRect(0,(-height/FlxG.camera.zoom)+height,1300,(height/FlxG.camera.zoom));
 
 		if (loaded){
 			ground.y = height-30;
