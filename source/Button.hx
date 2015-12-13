@@ -55,8 +55,7 @@ class Button extends FlxTypedGroup<FlxSprite>  {
 
 		textField = new FlxText(x+3,y+1);
 		textField.text = text;
-		textField.setFormat("assets/fonts/Fairfax.ttf", 12, FlxColor.WHITE, "left");
-		textField.setBorderStyle(FlxText.BORDER_OUTLINE, FlxColor.BLACK, 1);
+		textField.setFormat(null, 16, FlxColor.WHITE, "left");
 		add(textField);
 
 		width = background.width;

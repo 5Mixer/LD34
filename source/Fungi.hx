@@ -38,14 +38,14 @@ class Fungi extends FlxSprite {
 
 		flixel.FlxG.overlap(this,soldiers,function (fungi,soldier){
 			if (collisionExceptions.members.indexOf(soldier) == -1){
-				var s = cast(soldier,Soldier);
+				var s = cast(soldier,Speed);
 
 				if (s.speed > 20){
 					s.speed = Std.int(s.speed*slowdown);
 				}
 
 				fungi.decreaseSize();
-				fungi.collisionExceptions.add(s);
+				fungi.collisionExceptions.add(soldier);
 				noGrowTime = 2;
 				//soldier.kill();
 			}

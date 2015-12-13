@@ -13,7 +13,7 @@ class Projectile extends FlxSprite {
 		velocity.x = Math.cos((_angle-180)* Math.PI / 180) * (400*charge);
 		velocity.y = Math.sin((_angle-180)* Math.PI / 180) * (400*charge);
 
-		makeGraphic(9,2,flixel.util.FlxColor.BLACK);
+		makeGraphic(8,1,flixel.util.FlxColor.BLACK);
 		drag.set();
 	}
 
@@ -22,6 +22,7 @@ class Projectile extends FlxSprite {
 
 		killTimer += flixel.FlxG.elapsed;
 		if (killTimer > 4) kill();
+
 
 		velocity.y += 4;
 

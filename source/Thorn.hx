@@ -38,16 +38,17 @@ class Thorn extends FlxSprite {
 
 		flixel.FlxG.overlap(this,soldiers,function (fungi,soldier){
 			if (collisionExceptions.members.indexOf(soldier) == -1){
-				var s = cast(soldier,Soldier);
+
+				var s = cast(soldier,Speed);
 
 				if (flixel.util.FlxRandom.chanceRoll(75)){
-					s.kill();
+					soldier.kill();
 				}else{
 					s.speed = Std.int(s.speed*slowdown);
 				}
 
 				fungi.decreaseSize();
-				fungi.collisionExceptions.add(s);
+				fungi.collisionExceptions.add(soldier);
 				noGrowTime = 2;
 				//soldier.kill();
 			}
