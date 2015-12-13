@@ -1,6 +1,7 @@
 package ;
 import flixel.FlxSprite;
 import flixel.group.FlxTypedGroup;
+import flixel.group.FlxGroup;
 
 class Thorn extends FlxSprite {
 	var ground:FlxSprite;
@@ -11,11 +12,11 @@ class Thorn extends FlxSprite {
 	var growTimer:Float = 0;
 	var noGrowTime = 0.0;
 
-	var soldiers:FlxTypedGroup<Soldier>;
+	var soldiers:FlxGroup;
 
 	var slowdown = 0.75;
 
-	public function new (X,Y,_ground,soldierGroup:FlxTypedGroup<Soldier>){
+	public function new (X,Y,_ground,soldierGroup:FlxGroup){
 		super(X,Y);
 		loadGraphic("assets/images/Thorns.png",40,40,true);
 

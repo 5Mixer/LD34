@@ -18,7 +18,7 @@ class PlayState extends FlxState
 	var farm:Farm;
 	var castle:Castle;
 	var loaded:Bool = false;
-	var soldiers:FlxTypedGroup<Soldier>;
+	var soldiers:FlxGroup;
 	var farmers:FlxTypedGroup<Farmer>;
 	var fungi:FlxTypedGroup<Fungi>;
 	var thorns:FlxTypedGroup<Thorn>;
@@ -26,7 +26,7 @@ class PlayState extends FlxState
 
 	var player:Farmer;
 
-	var money = 0;
+	public static var money = 0;
 	/**
 	 * Function that is called up when to state is created to set it up.
 	 */
@@ -42,7 +42,7 @@ class PlayState extends FlxState
 		ground.makeGraphic(FlxG.width,30,flixel.util.FlxColor.GREEN);
 		add(ground);
 
-		soldiers = new FlxTypedGroup<Soldier>();
+		soldiers = new FlxGroup();
 		farmers = new FlxTypedGroup<Farmer>();
 		fungi = new FlxTypedGroup<Fungi>();
 		thorns = new FlxTypedGroup<Thorn>();
@@ -69,6 +69,11 @@ class PlayState extends FlxState
 		FlxG.camera.bounds = new flixel.util.FlxRect(0,0,1300,FlxG.height);
 
 		loaded=true;
+
+
+		var buyThorns = new Button((FlxG.width/4)*1,75,"Buy thorns",function () {
+			thorns.add(new Thorn(player.x+ 16-(20/2), player.y,ground,soldiers));
+		});
 
 	}
 

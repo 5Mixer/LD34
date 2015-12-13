@@ -6,11 +6,11 @@ import flixel.group.FlxGroup;
 
 class Castle extends FlxSprite {
 	var spawnTimer:Float = 0;
-	var soldiers:FlxTypedGroup<Soldier>;
+	var soldiers:FlxGroup;
 	var ground:FlxSprite;
 	var projectiles:FlxGroup;
 
-	public function new (X,Y,soldierGroup:FlxTypedGroup<Soldier>,_ground:FlxSprite,_projectiles:FlxGroup){
+	public function new (X,Y,soldierGroup:FlxGroup,_ground:FlxSprite,_projectiles:FlxGroup){
 		super(X,Y);
 		loadGraphic("assets/images/Castle.png",192,160,true);
 
@@ -23,8 +23,13 @@ class Castle extends FlxSprite {
 		spawnTimer += flixel.FlxG.elapsed;
 		if (spawnTimer > 3){
 			spawnTimer = 0;
+			if (Math.random() >0.55){
 
-			soldiers.add(new Soldier(x,y,ground,projectiles));
+				soldiers.add(new Archer(x,y,ground,projectiles));
+			}else{
+
+				soldiers.add(new Soldier(x,y,ground));
+			}
 		}
 	}
 }
