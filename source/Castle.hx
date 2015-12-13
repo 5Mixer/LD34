@@ -18,7 +18,7 @@ class Castle extends FlxSprite {
 
 		healthBar = new HealthBar(getMidpoint().x,y);
 		immovable = true;
-		
+
 		soldiers = soldierGroup;
 		ground = _ground;
 		projectiles = _projectiles;
@@ -32,10 +32,10 @@ class Castle extends FlxSprite {
 			spawnTimer = 0;
 			if (Math.random() >0.75){
 
-				soldiers.add(new Archer(x,y,ground,projectiles));
+				soldiers.add(new Archer(x+20,y+height-32,ground,projectiles));
 			}else{
 
-				soldiers.add(new Soldier(x,y,ground));
+				soldiers.add(new Soldier(x+20,y+height-32,ground));
 			}
 		}
 	}

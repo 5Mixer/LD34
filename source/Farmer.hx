@@ -14,6 +14,8 @@ class Farmer extends FlxSprite {
 		healthBar = new HealthBar(x,y);
 
 		loadGraphic("assets/images/Farmer.png",32,32,true);
+		animation.add("idle",[0]);
+		animation.add("walk",[1,2,3,4,5,6],10);
 	}
 
 	override public function update (){
@@ -26,11 +28,17 @@ class Farmer extends FlxSprite {
 		if (FlxG.keys.anyPressed(right)){
 			//RIGHT PRESSED.
 			velocity.x = 70;
+			flipX = false;
+			animation.play("walk");
 		}else if (FlxG.keys.anyPressed(left)){
 			//LEFT PRESSED.
+			flipX = true;
 			velocity.x = -70;
+			animation.play("walk");
 		}else{
 			velocity.x *= 0.5;
+			animation.play("idle");
+
 		}
 
 	}

@@ -16,6 +16,8 @@ class Thorn extends FlxSprite {
 
 	var slowdown = 0.75;
 
+	var grow:Bool = true;
+
 	public function new (X,Y,_ground,soldierGroup:FlxGroup){
 		super(X,Y);
 		loadGraphic("assets/images/Thorns.png",40,40,true);
@@ -58,9 +60,12 @@ class Thorn extends FlxSprite {
 
 		if (noGrowTime > 0) noGrowTime -= flixel.FlxG.elapsed;
 
-		if (growTimer > 2 && size < 5 && noGrowTime < 0.01){
+		if (growTimer > 2 && size < 5 && noGrowTime < 0.01 && grow){
 			growTimer = 0;
 			size++;
+			if (size == 5){
+				grow = false;
+			}
 		}
 
 		animation.play(size+"");

@@ -33,6 +33,13 @@ class Archer extends FlxSprite implements Speed{
 
 		velocity.y += 4;
 
+		if (arrowsLeft < 1){
+			velocity.x = speed;
+			animation.play("walkArcher");
+			flipX = true;
+			return;
+		}
+
 		if (startedShooting == false){
 			animation.play("walkArcher");
 			velocity.x = -speed;
@@ -43,6 +50,7 @@ class Archer extends FlxSprite implements Speed{
 			if (animation.frameIndex == 23 && hasShotThisShootCycle == false){
 				//arrows.add(new Projectile(x+4,y+12,50,45));
 				arrows.add(new Projectile(x+4,y+12,50,1+(Math.random()-0.6)));
+				arrowsLeft--;
 				hasShotThisShootCycle = true;
 			}
 			if (animation.frameIndex ==	11){

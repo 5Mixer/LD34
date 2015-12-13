@@ -23,12 +23,15 @@ class PlayState extends FlxState
 	var fungi:FlxTypedGroup<Fungi>;
 	var thorns:FlxTypedGroup<Thorn>;
 	var projectiles:FlxGroup;
+	var cars:FlxGroup;
 
 	var player:Farmer;
 
-	public static var money = 0;
+	public static var money = 100;
 	var buyThorns:Button;
 	var buyFungi:Button;
+
+	var moneyText:FlxText;
 	/**
 	 * Function that is called up when to state is created to set it up.
 	 */
@@ -54,20 +57,26 @@ class PlayState extends FlxState
 		fungi = new FlxTypedGroup<Fungi>();
 		thorns = new FlxTypedGroup<Thorn>();
 		projectiles = new FlxGroup();
+		cars = new FlxGroup();
+
+		add(soldiers);
 
 		castle = new Castle(1100,FlxG.height-30-160,soldiers,ground,projectiles);
 		add(castle);
 		add(castle.healthBar);
+
+		add(cars);
 
 		farm = new Farm(30,FlxG.height-30-160,farmers);
 		add(farm);
 		add(farm.healthBar);
 
 		add(farmers);
-		add(soldiers);
+
 		add(fungi);
 		add(thorns);
 		add(projectiles);
+
 
 		player = new Farmer(farm.x,farm.y);
 		farmers.add(player);
@@ -81,15 +90,27 @@ class PlayState extends FlxState
 		loaded=true;
 
 
-		buyThorns = new Button(50,40,"Buy killing thorns",function () {
-			thorns.add(new Thorn(player.x+ 16-(20/2), player.y,ground,soldiers));
+		buyThorns = new Button(50,40,"$30 - Buy killing thorns",function () {
+			if (money > 29){
+				money -= 30;
+				thorns.add(new Thorn(player.x+ 16-(20/2), player.y,ground,soldiers));
+			}
 		});
 		add(buyThorns);
 
-		buyFungi = new Button(50,75,"Buy slowing fungi",function () {
-			fungi.add(new Fungi(player.x+ 16-(20/2), player.y+20,ground,soldiers));
+		buyFungi = new Button(50,75,"$15 - Buy slowing fungi",function () {
+			if (money > 14){
+				money -= 15;
+				fungi.add(new Fungi(player.x+ 16-(20/2), player.y+20,ground,soldiers));
+			}
 		});
 		add(buyFungi);
+
+		moneyText = new FlxText(20+3,20+1);
+		moneyText.text = "$"+money;
+		moneyText.setFormat(null, 16, flixel.util.FlxColor.WHITE, "left");
+		moneyText.scrollFactor.set();
+		add(moneyText);
 
 	}
 
@@ -112,6 +133,8 @@ class PlayState extends FlxState
 	{
 		super.update();
 
+		moneyText.text = "$"+money;
+
 		flixel.FlxG.collide(ground,soldiers);
 		flixel.FlxG.collide(ground,farmers);
 
@@ -120,6 +143,10 @@ class PlayState extends FlxState
 			s.kill();
 			f.decreaseLives();
 		});
+		flixel.FlxG.collide(soldiers,cars,function (s,c){
+			s.kill();
+		});
+
 		flixel.FlxG.collide(ground,projectiles,function (g,p){
 			p.kill();
 		});
@@ -144,7 +171,9 @@ class PlayState extends FlxState
 		if (FlxG.keys.justPressed.Q){
 			thorns.add(new Thorn(player.x+ 16-(20/2), player.y,ground,soldiers));
 		}
-
+		if (FlxG.keys.justPressed.C){
+			cars.add(new Car(farm.x + 30,farm.y+farm.height-20-20,ground));
+		}
 
 		/*
 		if (FlxG.mouse.screenX < 35){
