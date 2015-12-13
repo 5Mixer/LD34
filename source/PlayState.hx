@@ -30,6 +30,7 @@ class PlayState extends FlxState
 	public static var money = 100;
 	var buyThorns:Button;
 	var buyFungi:Button;
+	var buyCar:Button;
 
 	var moneyText:FlxText;
 	/**
@@ -105,6 +106,14 @@ class PlayState extends FlxState
 			}
 		});
 		add(buyFungi);
+
+		buyCar = new Button(50,110,"$40 - Buy wipeout car",function () {
+			if (money > 39){
+				money -= 40;
+				cars.add(new Car(farm.x + 30,farm.y+farm.height-20-20,ground));
+			}
+		});
+		add(buyCar);
 
 		moneyText = new FlxText(20+3,20+1);
 		moneyText.text = "$"+money;
@@ -183,9 +192,9 @@ class PlayState extends FlxState
 			FlxG.camera.x -= FlxG.elapsed*55;
 		}*/
 
-		/*ground.y = flixel.FlxG.height-30;
-		ground.makeGraphic(FlxG.width,30,flixel.util.FlxColor.GREEN);
-		add(ground);*/
+		if (player.lives < 1 || farm.lives < 1){
+			flixel.FlxG.switchState(new DieScreen());
+		}
 	}
 
 	override public function onResize (width,height){

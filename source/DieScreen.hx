@@ -10,7 +10,7 @@ import flixel.util.FlxMath;
 /**
  * A FlxState which can be used for the game's menu.
  */
-class MenuState extends FlxState
+class DieScreen extends FlxState
 {
 	/**
 	 * Function that is called up when to state is created to set it up.
@@ -19,10 +19,10 @@ class MenuState extends FlxState
 	{
 		super.create();
 
-		var playButton = new Button(100,100,"PLAY",function () {
+		var restart = new Button(100,100,"Restart",function () {
 			flixel.FlxG.switchState(new PlayState());
 		});
-		add(playButton);
+		add(restart);
 	}
 
 	/**

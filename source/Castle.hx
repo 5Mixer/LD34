@@ -6,6 +6,7 @@ import flixel.group.FlxGroup;
 
 class Castle extends FlxSprite {
 	var spawnTimer:Float = 0;
+	var spawnTimerMax:Float = 3;
 	var soldiers:FlxGroup;
 	var ground:FlxSprite;
 	var projectiles:FlxGroup;
@@ -28,7 +29,8 @@ class Castle extends FlxSprite {
 		healthBar.move(getMidpoint().x+4,getMidpoint().y);
 
 		spawnTimer += flixel.FlxG.elapsed;
-		if (spawnTimer > 3){
+		if (spawnTimer > spawnTimerMax){
+			spawnTimerMax = 1+Math.random()*4;
 			spawnTimer = 0;
 			if (Math.random() >0.75){
 
